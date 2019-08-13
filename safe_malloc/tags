@@ -1,0 +1,23 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+ARR_SIZE	test_main.c	11;"	d	file:
+MEM_LEAK_TEST_H	mem_leak_test.h	3;"	d
+cache	mem_leak_test.c	/^static std::map<unsigned long, std::string> cache;$/;"	v	file:
+err_exit	mem_leak_test.c	/^static void err_exit(const char * info)$/;"	f	file:
+err_exit	test_main.c	/^void err_exit(const char * info)$/;"	f
+lock	mem_leak_test.c	/^static pthread_mutex_t lock;$/;"	v	file:
+main	test_main.c	/^int main(int argc, const char * const argv[])$/;"	f
+mem_leak_test_destroy	mem_leak_test.c	/^void mem_leak_test_destroy(void)$/;"	f
+mem_leak_test_init	mem_leak_test.c	/^int mem_leak_test_init(void)$/;"	f
+mem_leak_test_result	mem_leak_test.c	/^void mem_leak_test_result(void)$/;"	f
+my_free	test_main.c	10;"	d	file:
+my_malloc	test_main.c	9;"	d	file:
+test	test_main.c	/^void test(void)$/;"	f
+test_free	mem_leak_test.h	5;"	d
+test_malloc	mem_leak_test.h	6;"	d
+test_safe_free	mem_leak_test.c	/^void test_safe_free(const char * file, size_t line, void * ptr)$/;"	f
+test_safe_malloc	mem_leak_test.c	/^void * test_safe_malloc(const char * file, size_t line, size_t size)$/;"	f
