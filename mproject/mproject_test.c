@@ -9,66 +9,58 @@
  * add sig process, when sigment print address contect 
  * */
 
-struct mem_align {
-    void *origin_start;  // for free
-    void *start;         // data addr start, align page size
-    void *end;           // data addr end,   align page size
-    void *origin_end;
-};
-
-int malloc_align_page(size_t memsize, struct mem_align *mem)
+void * malloc_align_page(size_t memsize)
 {
-    if (memsize == 0 || mem == NULL)
-        return -1;
+    void *start = NULL;
 
-    memset(mem, 0, sizeof(*mem));
+    if (memsize == 0) {
+        return NULL;
+    }
+
     long pagesize = sysconf(_SC_PAGE_SIZE);
     if (pagesize == -1) {
         perror("sysconf err");
-        return -1;
+        return NULL;
     }
 
     size_t datasize = memsize + pagesize * 2;
-    mem->origin_start = malloc(datasize);
-    if(mem->origin_start == NULL)
-        return -1;
-    mem->origin_end = mem->origin_start + datasize;
+    void *origin_start = malloc(datasize);
+    if(origin_start == NULL) {
+        perror("malloc");
+        return NULL;
+    }
+    memset(origin_start, 0, datasize);
 
     long mask = pagesize - 1;
-    mem->start = (void *)((long)(mem->origin_start + pagesize) & ~mask);
-    long pagenum = memsize / pagesize + 1;
-    mem->end = mem->start + pagesize * pagenum;
+    start = (void *)((long)(origin_start + pagesize) & ~mask);
 
-    return 0;
+    return start;
 }
 
 int main()
 {
-    int ret;
-    struct mem_align mem;
-
     /* malloc */
-    ret = malloc_align_page(4097, &mem);
-    if (ret != 0) {
-        return ret;
+    size_t plen = 4097;
+    char *p = (char *)malloc_align_page(plen);
+    if (p == NULL) {
+        return -1;
     }
 
     /* write */
-    char *p = mem.start;
     strcpy(p, "hello world");
     p[4] = '1';
 
     /* lock */
-    ret = mprotect(mem.start, (size_t)(mem.end - mem.start), PROT_READ);
-    if (ret == -1) {
-        perror("mportect");
-        return ret;
+    if (mprotect(p, (size_t)(plen), PROT_READ) == -1) {
+        perror("Error: mportect %s:%d", __func__, __LINE__);
+        return -1;
     }
-    printf("before mem.start:[%s]\n", p);
+
+    printf("before p:[%s]\n", p);
 
     /* error */
     p[4] = '2';
-    printf("after mem.start:[%s]\n", p);
+    printf("after p:[%s]\n", p);
 
     return 0;
 }
