@@ -33,9 +33,15 @@ int main()
 
     printf("before p:[%s]\n", p);
 
+#if 0
     /* error */
     p[4] = '2';
     printf("after p:[%s]\n", p);
+#endif
+
+    if (p) { 
+        free(p); 
+    }
 
     return 0;
 }
