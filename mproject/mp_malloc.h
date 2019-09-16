@@ -6,6 +6,7 @@
 
 #define MP_MALLOC(slen) malloc_align_page(slen)
 #define MP_RLOCK(start, slen) mprotect(start, (size_t)(slen), PROT_READ)
+#define MP_RWLOCK(start, slen) mprotect(start, (size_t)(slen), PROT_READ | PROT_WRITE)
 #define MP_FREE(start) free(start)
 
 void * malloc_align_page(size_t memsize);
